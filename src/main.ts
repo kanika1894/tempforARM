@@ -13,7 +13,7 @@ export async function main(): Promise<Outputs> {
     const azPath = await which("az", true);
 
     // retrieve action variables
-    const scope = getInput('scope')
+    const scope = getInput('scope')?getInput('scope'):"resourcegroup"
     const subscriptionId = getInput('subscriptionId')
     const location = getInput('location')
     const resourceGroupName = getInput('resourceGroupName')
