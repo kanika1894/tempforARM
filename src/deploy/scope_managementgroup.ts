@@ -29,8 +29,12 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
         failOnStdErr: true,
         listeners: {
             stderr: (data: BufferSource) => {
+                warning(data.toString());
+            },
+            stdline: (data: string) => {
+                if (!data.startsWith("[command]"))
                     commandOutput += data;
-                 console.log(data.toString());
+                console.log(data);
             }
         }
     }
