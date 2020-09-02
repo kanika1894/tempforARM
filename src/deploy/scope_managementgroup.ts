@@ -31,14 +31,14 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
             stdline: (data: string) => {
                 if (!data.startsWith("[command]"))
                     commandOutput += data;
-                // console.log(data);
+                 console.log(data);
             },   
         }
     }
 
     // validate the deployment
     info("Validating template...")
-    var code = await exec(`"${azPath}" deployment mg validate ${azDeployParameters} -o json`, [], { silent: true, ignoreReturnCode: true });
+    var code = await exec(`"${azPath}" deployment mg validate ${azDeployParameters} -o json`, [], options);
     if (validationOnly && code != 0) {
         throw new Error("Template validation failed")
     } else if (code != 0) {
