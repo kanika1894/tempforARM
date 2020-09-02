@@ -31,11 +31,7 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
             stderr: (data: BufferSource) => {
                     commandOutput += data;
                  console.log(data.toString());
-            },
-            stdout: (data: BufferSource) => {
-                commandOutput += data;
-             console.log(data.toString());
-        }
+            }
         }
     }
 
