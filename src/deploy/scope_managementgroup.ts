@@ -24,7 +24,7 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
 
     // configure exec to write the json output to a buffer
     let commandOutput = '';
-    const options: ExecOptions = {
+    const deployOptions: ExecOptions = {
         silent: true,
         failOnStdErr: true,
         listeners: {
@@ -34,14 +34,23 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
             stdline: (data: string) => {
                 if (!data.startsWith("[command]"))
                     commandOutput += data;
-                console.log(data);
-            }
+                // console.log(data);
+            },
+        }
+    }
+    const validateOptions: ExecOptions = {
+        silent: true,
+        ignoreReturnCode: true,
+        listeners: {
+            stderr: (data: BufferSource) => {
+                warning(data.toString());
+            },
         }
     }
 
     // validate the deployment
     info("Validating template...")
-    var code = await exec(`"${azPath}" deployment mg validate ${azDeployParameters} -o json`, [], options);
+    var code = await exec(`"${azPath}" deployment mg validate ${azDeployParameters} -o json`, [], validateOptions);
     if (validationOnly && code != 0) {
         throw new Error("Template validation failed")
     } else if (code != 0) {
@@ -50,7 +59,7 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
 
     // execute the deployment
     info("Creating deployment...")
-    await exec(`"${azPath}" deployment mg create ${azDeployParameters} -o json`, [], options);
+    await exec(`"${azPath}" deployment mg create ${azDeployParameters} -o json`, [], deployOptions);
 
     // Parse the Outputs
     info("Parsing outputs...")
