@@ -28,8 +28,7 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
         silent: true,
         failOnStdErr: true,
         listeners: {
-            stdout: (data: string) => {
-                if (!data.startsWith("[command]"))
+            stdout: (data: BufferSource) => {
                     commandOutput += data;
                  console.log(data);
             }
