@@ -8,7 +8,9 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
     if (!location) {
         throw Error("Location must be set. zaruri hai.")
     }
-    
+    if (deploymentMode != "") {
+        warning("Deployment Mode to be ignored")
+    }
     // create the parameter list
     const azDeployParameters = [
         location ? `--location ${location}` : undefined,
