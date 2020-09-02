@@ -28,11 +28,14 @@ export async function DeployManagementGroupScope(azPath: string, validationOnly:
         silent: true,
         failOnStdErr: true,
         listeners: {
-            stdline: (data: string) => {
+            stdout: (data: string) => {
                 if (!data.startsWith("[command]"))
                     commandOutput += data;
                  console.log(data);
             },   
+            stderr: (data: string) => {
+                 console.log(data);
+            }
         }
     }
 
