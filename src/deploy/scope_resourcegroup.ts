@@ -33,8 +33,12 @@ export async function DeployResourceGroupScope(azPath: string, validationOnly: b
         failOnStdErr: true,
         listeners: {
             stderr: (data: BufferSource) => {
+                warning(data.toString());
+            },
+            stdline: (data: string) => {
+                if (!data.startsWith("[command]"))
                     commandOutput += data;
-                // console.log(data.toString());
+                console.log(data);
             }
         }
     }
